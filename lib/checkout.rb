@@ -1,4 +1,8 @@
+require_relative "helpers/price_formatter"
+
 class Checkout
+  include Helpers::PriceFormatter
+
   attr_reader :items, :pricing_rules, :total
 
   def initialize(pricing_rules = [])
@@ -18,15 +22,11 @@ class Checkout
       Items on cart:
       --------------
       #{item_list}
-      Total: £#{format_price(@total)}
+      Total: #{format_price_with_currency(@total)}
     CHECKOUT
   end
 
   private
-
-  def format_price(price)
-    format("%.2f", price)
-  end
 
   def calculate_total
     @total = @items.sum(&:price)

@@ -1,4 +1,8 @@
+require_relative "helpers/price_formatter"
+
 class Product
+  include Helpers::PriceFormatter
+
   attr_reader :code, :name, :price
 
   def initialize(code, name, price)
@@ -12,7 +16,7 @@ class Product
   end
 
   def to_s
-    "#{@name} (#{@code}): £#{format_price(price)}"
+    "#{@name} (#{@code}): #{format_price_with_currency(price)}"
   end
 
   private
@@ -34,9 +38,5 @@ class Product
     raise e if e.message.include?("cannot be")
 
     raise ArgumentError, "Price must be a valid number"
-  end
-
-  def format_price(price)
-    format("%.2f", price)
   end
 end
