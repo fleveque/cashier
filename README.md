@@ -11,6 +11,10 @@
   ```bash
    bin/cashier
    ```
+   or if `bin/cashier` is not executable:
+   ```bash
+   ruby lib/main.rb
+   ```
 
 ## Structure
 

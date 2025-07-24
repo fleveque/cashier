@@ -1,0 +1,46 @@
+AllCops:
+  TargetRubyVersion: 3.4
+  NewCops: enable
+  # Disable auto-correction by default
+  AutoCorrect: false
+
+Layout/LineLength:
+  Max: 120
+
+Lint/EmptyClass:
+  AllowComments: true
+
+Metrics/AbcSize:
+  Max: 25
+
+Metrics/MethodLength:
+  Max: 11
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/StringLiteralsInInterpolation:
+  EnforcedStyle: double_quotes
+
+Metrics/BlockLength:
+  Exclude:
+    - 'test/**/*'
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Lint/ScriptPermission:
+  Enabled: false
+
+# Only enable auto-correction for whitespace and indentation
+Layout/TrailingWhitespace:
+  AutoCorrect: true
+
+Layout/IndentationWidth:
+  AutoCorrect: true
+
+Layout/IndentationConsistency:
+  AutoCorrect: true

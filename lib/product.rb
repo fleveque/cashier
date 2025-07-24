@@ -18,29 +18,25 @@ class Product
   private
 
   def validate_presence(value, field_name)
-    if value.nil? || value.to_s.strip.empty?
-      raise ArgumentError, "#{field_name} cannot be nil or empty"
-    end
+    raise ArgumentError, "#{field_name} cannot be nil or empty" if value.nil? || value.to_s.strip.empty?
+
     value
   end
 
   def validate_price(price)
-    if price.nil?
-      raise ArgumentError, "Price cannot be nil"
-    end
-    
+    raise ArgumentError, "Price cannot be nil" if price.nil?
+
     numeric_price = Float(price)
-    if numeric_price < 0
-      raise ArgumentError, "Price cannot be negative"
-    end
-    
+    raise ArgumentError, "Price cannot be negative" if numeric_price.negative?
+
     numeric_price
   rescue ArgumentError => e
     raise e if e.message.include?("cannot be")
+
     raise ArgumentError, "Price must be a valid number"
   end
 
   def format_price(price)
-    '%.2f' % price
+    format("%.2f", price)
   end
 end

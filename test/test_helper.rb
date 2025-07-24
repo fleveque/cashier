@@ -1,4 +1,7 @@
-require 'minitest/autorun'
+require "minitest/autorun"
 
-class Minitest::Test
+module Minitest
+  class Test
+    # Common setup or helpers for all tests can go here
+  end
 end
