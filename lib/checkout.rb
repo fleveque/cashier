@@ -14,6 +14,7 @@ class Checkout
   def scan(item)
     @items << item
     calculate_total
+    apply_pricing_rules
   end
 
   def to_s
@@ -30,5 +31,12 @@ class Checkout
 
   def calculate_total
     @total = @items.sum(&:price)
+  end
+
+  def apply_pricing_rules
+    @pricing_rules.each do |rule|
+      discount = rule.calculate_discount(@items)
+      @total -= discount
+    end
   end
 end

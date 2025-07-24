@@ -8,6 +8,10 @@ module PricingRules
       @percentage = percentage
     end
 
+    def calculate_discount(_items)
+      0.0
+    end
+
     def to_s
       "Bulk Percentage for #{@item.code} (min: #{@min_quantity}, discount: #{format_percentage})"
     end

@@ -1,12 +1,10 @@
 module PricingRules
   class Base
-    attr_reader :product_code
-
     def initialize(item)
       @item = item
     end
 
-    def calculate_discount
+    def calculate_discount(items)
       raise NotImplementedError, "Subclasses must implement calculate_discount"
     end
 

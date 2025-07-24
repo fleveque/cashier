@@ -11,6 +11,10 @@ module PricingRules
       @discounted_price = discounted_price
     end
 
+    def calculate_discount(_items)
+      0.0
+    end
+
     def to_s
       "Bulk Fixed Price for #{@item.code} " \
         "(min: #{@minimum_quantity}, price: #{format_price_with_currency(@discounted_price)})"

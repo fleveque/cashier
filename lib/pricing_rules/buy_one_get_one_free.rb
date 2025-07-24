@@ -3,15 +3,12 @@ require_relative "../pricing_rules/base"
 module PricingRules
   class BuyOneGetOneFree < PricingRules::Base
     def calculate_discount(items)
-      matching = matching_items(items)
-      return 0.0 if matching.empty?
+      items.select { |item| item.code == @item.code }.tap do |matching|
+        return 0.0 if matching.empty? || matching.count < 2
 
-      # Calculate discount based on the number of matching items
-      discount = 0.0
-      matching.each_slice(2) do |pair|
-        discount += pair.first.price
+        free_items = matching.count / 2
+        return free_items * matching.first.price
       end
-      discount
     end
 
     def to_s
