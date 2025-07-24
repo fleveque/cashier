@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Cashier System Runner
+# This script runs the Ruby cashier application
+
+ruby "$(dirname "$0")/../lib/main.rb" "$@"
