@@ -1,5 +1,5 @@
-require_relative 'test_helper'
-require_relative '../lib/product'
+require_relative "test_helper"
+require_relative "../lib/product"
 
 class ProductTest < Minitest::Test
   def setup
