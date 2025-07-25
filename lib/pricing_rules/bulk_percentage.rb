@@ -17,7 +17,7 @@ module PricingRules
     end
 
     def to_s
-      "Bulk Percentage for #{@item.code} (min: #{@min_quantity}, percentage: #{format_percentage})"
+      "Bulk Percentage for #{@item.code} (min: #{@minimum_quantity}, percentage: #{format_percentage})"
     end
 
     private
