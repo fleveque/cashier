@@ -10,6 +10,18 @@ module PricingRules
       @rule = BuyOneGetOneFree.new(@product_for_price_rule)
     end
 
+    def test_initialization_fails_without_item
+      assert_raises(ArgumentError) do
+        BuyOneGetOneFree.new(nil)
+      end
+    end
+
+    def test_initialization_fails_with_invalid_item
+      assert_raises(ArgumentError) do
+        BuyOneGetOneFree.new("Invalid Item")
+      end
+    end
+
     def test_calculate_discount_no_items
       assert_discount_for_quantity(0, 0.0)
     end

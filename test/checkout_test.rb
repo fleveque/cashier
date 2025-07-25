@@ -23,6 +23,15 @@ class CheckoutTest < Minitest::Test
     assert_equal 0.0, @checkout.total
   end
 
+  def test_initialization_with_invalid_pricing_rules
+    assert_raises(ArgumentError) do
+      Checkout.new("Invalid Pricing Rules")
+    end
+    assert_raises(ArgumentError) do
+      Checkout.new([@rbogo, "Invalid Rule"])
+    end
+  end
+
   def test_scan_item
     @checkout.scan(@gr1)
     assert_includes @checkout.items, @gr1

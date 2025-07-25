@@ -9,6 +9,18 @@ module PricingRules
       @pricing_rule = Base.new(@product)
     end
 
+    def test_initialization_fails_without_item
+      assert_raises(ArgumentError) do
+        Base.new(nil)
+      end
+    end
+
+    def test_initialization_fails_with_invalid_item
+      assert_raises(ArgumentError) do
+        Base.new("Invalid Item")
+      end
+    end
+
     def test_calculate_discount_raises_not_implemented_error
       assert_raises(NotImplementedError) do
         @pricing_rule.calculate_discount([])

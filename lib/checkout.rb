@@ -7,7 +7,7 @@ class Checkout
 
   def initialize(pricing_rules = [])
     @items = []
-    @pricing_rules = pricing_rules
+    @pricing_rules = validate_pricing_rules(pricing_rules)
     @total = 0.0
   end
 
@@ -28,6 +28,18 @@ class Checkout
   end
 
   private
+
+  def validate_pricing_rules(rules)
+    raise ArgumentError, "Pricing rules must be an array" unless rules.is_a?(Array)
+
+    rules.each do |rule|
+      unless rule.is_a?(PricingRules::Base)
+        raise ArgumentError, "Each pricing rule must be an instance of PricingRules::Base"
+      end
+    end
+
+    rules
+  end
 
   def calculate_total
     @total = @items.sum(&:price)
