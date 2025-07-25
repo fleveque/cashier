@@ -30,6 +30,11 @@ module PricingRules
       assert_discount_for_quantity(5, 10.0)
     end
 
+    def test_to_s
+      expected_string = "Bulk Fixed Price for #{@product_for_price_rule.code} (min: 3, price: £8.00)"
+      assert_equal expected_string, @rule.to_s
+    end
+
     private
 
     def invalid_arguments
