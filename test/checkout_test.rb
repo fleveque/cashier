@@ -12,7 +12,8 @@ class CheckoutTest < Minitest::Test
     @sr1 = Product.new("SR1", "Strawberries", 5.00)
     @cf1 = Product.new("CF1", "Coffee", 11.23)
     @rbogo = PricingRules::BuyOneGetOneFree.new(@gr1)
-    @rbfp = PricingRules::BulkFixedPrice.new(@sr1, 3, 4.50)
+    @rbfp_price = 4.50
+    @rbfp = PricingRules::BulkFixedPrice.new(@sr1, 3, @rbfp_price)
     @rbp = PricingRules::BulkPercentage.new(@cf1, 3, 1.0 / 3.0)
   end
 
@@ -72,7 +73,15 @@ class CheckoutTest < Minitest::Test
   end
 
   def test_pricing_rules_acceptance_criteria_three
-    skip "This test is not implemented yet"
+    @checkout = Checkout.new([@rbogo, @rbfp, @rbp])
+
+    @checkout.scan(@sr1)
+    @checkout.scan(@sr1)
+    @checkout.scan(@gr1)
+    @checkout.scan(@sr1)
+
+    expected_total = (@rbfp_price * 3) + @gr1.price
+    assert_equal expected_total, @checkout.total
   end
 
   def test_pricing_rules_acceptance_criteria_four

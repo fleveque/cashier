@@ -11,8 +11,11 @@ module PricingRules
       @discounted_price = validate_discounted_price(discounted_price)
     end
 
-    def calculate_discount(_items)
-      0.0
+    def calculate_discount(items)
+      matching = items.select { |item| item.code == @item.code }
+      return 0.0 if matching.empty? || matching.count < @minimum_quantity
+
+      (matching.first.price - @discounted_price) * matching.count
     end
 
     def to_s
