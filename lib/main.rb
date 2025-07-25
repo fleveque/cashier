@@ -31,7 +31,7 @@ def main
 
   puts "\n\n"
   puts "Available pricing rules:"
-  puts "--------------"
+  puts "------------------------"
   puts pr1
   puts pr2
   puts pr3
