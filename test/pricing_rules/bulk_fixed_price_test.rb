@@ -11,9 +11,9 @@ module PricingRules
     end
 
     def test_initialization_fails_with_wrong_arguments
-      invalid_arguments.each do |item, min_qty, discounted_price|
+      invalid_arguments.each do |args|
         assert_raises(ArgumentError) do
-          BulkFixedPrice.new(item, min_qty, discounted_price)
+          BulkFixedPrice.new(*args)
         end
       end
     end

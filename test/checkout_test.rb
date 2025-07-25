@@ -7,14 +7,16 @@ require_relative "../lib/pricing_rules/bulk_percentage"
 
 class CheckoutTest < Minitest::Test
   def setup
-    @checkout = Checkout.new
     @gr1 = Product.new("GR1", "Green tea", 3.11)
     @sr1 = Product.new("SR1", "Strawberries", 5.00)
     @cf1 = Product.new("CF1", "Coffee", 11.23)
     @rbogo = PricingRules::BuyOneGetOneFree.new(@gr1)
     @rbfp_price = 4.50
     @rbfp = PricingRules::BulkFixedPrice.new(@sr1, 3, @rbfp_price)
-    @rbp = PricingRules::BulkPercentage.new(@cf1, 3, 1.0 / 3.0)
+    @rbp_price_percentage = 2.0 / 3.0
+    @rbp = PricingRules::BulkPercentage.new(@cf1, 3, @rbp_price_percentage)
+    @checkout = Checkout.new
+    @checkout_with_rules = Checkout.new([@rbogo, @rbfp, @rbp])
   end
 
   def test_initialization
@@ -47,44 +49,45 @@ class CheckoutTest < Minitest::Test
     assert_equal expected_total, @checkout.total
   end
 
-  # Test pricing rules being applied
+  # Requirement test pricing rules being applied
   # Specific tests for each pricing rule are in their respective test files
   def test_pricing_rules_acceptance_criteria_one
-    @checkout = Checkout.new([@rbogo, @rbfp, @rbp])
-
-    @checkout.scan(@gr1)
-    @checkout.scan(@sr1)
-    @checkout.scan(@gr1)
-    @checkout.scan(@gr1)
-    @checkout.scan(@cf1)
+    @checkout_with_rules.scan(@gr1)
+    @checkout_with_rules.scan(@sr1)
+    @checkout_with_rules.scan(@gr1)
+    @checkout_with_rules.scan(@gr1)
+    @checkout_with_rules.scan(@cf1)
 
     expected_total = (@gr1.price * 2) + @sr1.price + @cf1.price
-    assert_equal expected_total, @checkout.total
+    assert_equal expected_total, @checkout_with_rules.total
   end
 
   def test_pricing_rules_acceptance_criteria_two
-    @checkout = Checkout.new([@rbogo, @rbfp, @rbp])
-
-    @checkout.scan(@gr1)
-    @checkout.scan(@gr1)
+    @checkout_with_rules.scan(@gr1)
+    @checkout_with_rules.scan(@gr1)
 
     expected_total = @gr1.price
-    assert_equal expected_total, @checkout.total
+    assert_equal expected_total, @checkout_with_rules.total
   end
 
   def test_pricing_rules_acceptance_criteria_three
-    @checkout = Checkout.new([@rbogo, @rbfp, @rbp])
-
-    @checkout.scan(@sr1)
-    @checkout.scan(@sr1)
-    @checkout.scan(@gr1)
-    @checkout.scan(@sr1)
+    @checkout_with_rules.scan(@sr1)
+    @checkout_with_rules.scan(@sr1)
+    @checkout_with_rules.scan(@gr1)
+    @checkout_with_rules.scan(@sr1)
 
     expected_total = (@rbfp_price * 3) + @gr1.price
-    assert_equal expected_total, @checkout.total
+    assert_equal expected_total, @checkout_with_rules.total
   end
 
   def test_pricing_rules_acceptance_criteria_four
-    skip "This test is not implemented yet"
+    @checkout_with_rules.scan(@gr1)
+    @checkout_with_rules.scan(@cf1)
+    @checkout_with_rules.scan(@sr1)
+    @checkout_with_rules.scan(@cf1)
+    @checkout_with_rules.scan(@cf1)
+
+    expected_total = ((@cf1.price * @rbp_price_percentage) * 3) + @gr1.price + @sr1.price
+    assert_equal expected_total, @checkout_with_rules.total
   end
 end

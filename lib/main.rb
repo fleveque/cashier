@@ -27,7 +27,7 @@ def main
   # Add pricing rules
   pr1 = PricingRules::BuyOneGetOneFree.new(gr1)
   pr2 = PricingRules::BulkFixedPrice.new(sr1, 3, 4.50)
-  pr3 = PricingRules::BulkPercentage.new(cf1, 3, 1.0 / 3.0)
+  pr3 = PricingRules::BulkPercentage.new(cf1, 3, 2.0 / 3.0)
 
   puts "\n\n"
   puts "Pricing rules:"

@@ -7,7 +7,8 @@ module PricingRules
       return 0.0 if matching.empty? || matching.count < 2
 
       free_items = matching.count / 2
-      free_items * matching.first.price
+      discount = free_items * matching.first.price
+      discount.round(2)
     end
 
     def to_s

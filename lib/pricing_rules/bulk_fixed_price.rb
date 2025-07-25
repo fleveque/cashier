@@ -15,7 +15,8 @@ module PricingRules
       matching = items.select { |item| item.code == @item.code }
       return 0.0 if matching.empty? || matching.count < @minimum_quantity
 
-      (matching.first.price - @discounted_price) * matching.count
+      discount = (matching.first.price - @discounted_price) * matching.count
+      discount.round(2)
     end
 
     def to_s
