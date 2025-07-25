@@ -50,6 +50,14 @@ class CheckoutTest < Minitest::Test
     assert_total_equals_base_total_minus_discount
   end
 
+  def test_to_s
+    @checkout.scan(@gr1)
+    assert_includes @checkout.to_s, @gr1.to_s
+    assert_includes @checkout.to_s, "Base Total: £#{@checkout.base_total}"
+    assert_includes @checkout.to_s, "Discounts Applied: £#{@checkout.discount}"
+    assert_includes @checkout.to_s, "Total: £#{@checkout.total}"
+  end
+
   # Requirement test pricing rules being applied
   # Specific tests for each pricing rule are in their respective test files
   def test_pricing_rules_acceptance_criteria_one

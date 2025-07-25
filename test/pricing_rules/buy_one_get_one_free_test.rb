@@ -22,24 +22,20 @@ module PricingRules
       end
     end
 
-    def test_calculate_discount_no_items
+    def test_calculate_discount_low_items
       assert_discount_for_quantity(0, 0.0)
-    end
-
-    def test_calculate_discount_one_item
       assert_discount_for_quantity(1, 0.0)
     end
 
-    def test_calculate_discount_two_items
+    def test_calculate_discount_enough_items
       assert_discount_for_quantity(2, @product_for_price_rule.price)
-    end
-
-    def test_calculate_discount_three_items
       assert_discount_for_quantity(3, @product_for_price_rule.price)
+      assert_discount_for_quantity(4, 2 * @product_for_price_rule.price)
     end
 
-    def test_calculate_discount_four_items
-      assert_discount_for_quantity(4, 2 * @product_for_price_rule.price)
+    def test_to_s
+      expected_string = "Buy One Get One Free for #{@product_for_price_rule.code}"
+      assert_equal expected_string, @rule.to_s
     end
 
     private
