@@ -3,17 +3,23 @@ require_relative "helpers/price_formatter"
 class Checkout
   include Helpers::PriceFormatter
 
-  attr_reader :items, :pricing_rules, :total
+  attr_reader :items, :pricing_rules, :base_total, :discount
 
   def initialize(pricing_rules = [])
     @items = []
     @pricing_rules = validate_pricing_rules(pricing_rules)
-    @total = 0.0
+    @base_total = 0.0
+    @discount = 0.0
   end
 
   def scan(item)
     @items << item
-    @total = calculate_total
+    @base_total = calculate_total
+    @discount = calculate_discount
+  end
+
+  def total
+    (@base_total - @discount).round(2)
   end
 
   def to_s
@@ -22,7 +28,11 @@ class Checkout
       Items on cart:
       --------------
       #{item_list}
-      Total: #{format_price_with_currency(@total)}
+      --------------
+      Base Total: #{format_price_with_currency(@base_total)}
+      Discounts Applied: #{format_price_with_currency(@discount)}
+      --------------
+      Total: #{format_price_with_currency(total)}
     CHECKOUT
   end
 
@@ -41,9 +51,11 @@ class Checkout
   end
 
   def calculate_total
-    base_total = @items.sum(&:price)
+    @items.sum(&:price).round(2)
+  end
+
+  def calculate_discount
     total_discount = @pricing_rules.sum { |rule| rule.calculate_discount(@items) }
-    final_total = base_total - total_discount
-    final_total.round(2)
+    total_discount.round(2)
   end
 end

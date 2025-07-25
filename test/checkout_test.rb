@@ -47,6 +47,7 @@ class CheckoutTest < Minitest::Test
     @checkout.scan(@cf1)
     expected_total = @gr1.price + @sr1.price + @cf1.price
     assert_equal expected_total, @checkout.total
+    assert_total_equals_base_total_minus_discount
   end
 
   # Requirement test pricing rules being applied
@@ -60,6 +61,7 @@ class CheckoutTest < Minitest::Test
 
     expected_total = (@gr1.price * 2) + @sr1.price + @cf1.price
     assert_equal expected_total, @checkout_with_rules.total
+    assert_total_equals_base_total_minus_discount
   end
 
   def test_pricing_rules_acceptance_criteria_two
@@ -68,6 +70,7 @@ class CheckoutTest < Minitest::Test
 
     expected_total = @gr1.price
     assert_equal expected_total, @checkout_with_rules.total
+    assert_total_equals_base_total_minus_discount
   end
 
   def test_pricing_rules_acceptance_criteria_three
@@ -78,6 +81,7 @@ class CheckoutTest < Minitest::Test
 
     expected_total = (@rbfp_price * 3) + @gr1.price
     assert_equal expected_total, @checkout_with_rules.total
+    assert_total_equals_base_total_minus_discount
   end
 
   def test_pricing_rules_acceptance_criteria_four
@@ -89,5 +93,13 @@ class CheckoutTest < Minitest::Test
 
     expected_total = ((@cf1.price * @rbp_price_percentage) * 3) + @gr1.price + @sr1.price
     assert_equal expected_total, @checkout_with_rules.total
+    assert_total_equals_base_total_minus_discount
+  end
+
+  private
+
+  def assert_total_equals_base_total_minus_discount
+    assert_equal @checkout_with_rules.total,
+                 (@checkout_with_rules.base_total - @checkout_with_rules.discount).round(2)
   end
 end

@@ -30,7 +30,7 @@ def main
   pr3 = PricingRules::BulkPercentage.new(cf1, 3, 2.0 / 3.0)
 
   puts "\n\n"
-  puts "Pricing rules:"
+  puts "Available pricing rules:"
   puts "--------------"
   puts pr1
   puts pr2
@@ -43,7 +43,6 @@ def main
   # Initialize checkout with pricing rules
   co = Checkout.new([pr1, pr2, pr3])
 
-  puts "Scanning items...\n"
   co.scan(gr1)
   co.scan(sr1)
   co.scan(gr1)
@@ -60,7 +59,6 @@ def main
   # Initialize checkout with pricing rules
   co = Checkout.new([pr1, pr2, pr3])
 
-  puts "Scanning items...\n"
   co.scan(gr1)
   co.scan(gr1)
   puts
@@ -74,7 +72,6 @@ def main
   # Initialize checkout with pricing rules
   co = Checkout.new([pr1, pr2, pr3])
 
-  puts "Scanning items...\n"
   co.scan(sr1)
   co.scan(sr1)
   co.scan(gr1)
@@ -90,7 +87,6 @@ def main
   # Initialize checkout with pricing rules
   co = Checkout.new([pr1, pr2, pr3])
 
-  puts "Scanning items...\n"
   co.scan(gr1)
   co.scan(cf1)
   co.scan(sr1)
